@@ -1,7 +1,7 @@
 {
   "name": "company-shared-lib",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "description": "公司前端公共库 Monorepo",
   "scripts": {
     "build": "pnpm -r build",
