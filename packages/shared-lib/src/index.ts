@@ -43,7 +43,6 @@ export type {
 
 // 自定义组件
 export { MyButton } from '@company/ui-components';
-export type { MyButtonProps } from '@company/ui-components';
 
 // 工具方法
 export * from '@company/utils';

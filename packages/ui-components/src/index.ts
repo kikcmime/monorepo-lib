@@ -41,4 +41,3 @@ export type {
 
 // 导出自定义组件
 export { MyButton } from './components/MyButton';
-export type { MyButtonProps } from './components/MyButton';
