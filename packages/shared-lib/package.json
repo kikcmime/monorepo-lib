@@ -2,14 +2,14 @@
   "name": "company-shared-lib",
   "version": "1.0.0",
   "description": "公司前端公共库（聚合包，包含 UI 组件和工具方法）",
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.js"
     }
   },
   "files": [
