@@ -7,6 +7,7 @@
 ```
 company-shared-lib/
 ├── packages/
+│   ├── shared-lib/        # 聚合包 (company-shared-lib) - 整体安装
 │   ├── ui-components/     # UI 组件包 (@company/ui-components)
 │   └── utils/             # 工具方法包 (@company/utils)
 ├── package.json           # 根目录配置
@@ -16,52 +17,69 @@ company-shared-lib/
 
 ## 安装
 
+### 方式一：整体安装（推荐）
+
+一键安装所有功能：
+
 ```bash
-# 安装 UI 组件包
+pnpm add company-shared-lib
+```
+
+### 方式二：按需安装
+
+只安装需要的包，减小体积：
+
+```bash
+# 只安装 UI 组件
 pnpm add @company/ui-components
 
-# 安装工具方法包
+# 只安装工具方法
 pnpm add @company/utils
-
-# 同时安装两个包
-pnpm add @company/ui-components @company/utils
 ```
 
 ## 使用示例
 
+### 整体安装后使用
+
 ```tsx
 import React from 'react';
-// 从 UI 组件包导入原生 antd 组件 + 自定义组件
-import { MyButton, Input, Table, Modal } from '@company/ui-components';
-// 从工具包导入方法
-import { formatDate, validatePhone, isEmpty } from '@company/utils';
+// 从聚合包统一导入所有内容
+import { MyButton, Input, formatDate, validatePhone } from 'company-shared-lib';
 
-const App = () => {
-  const handleClick = () => {
-    console.log('Button clicked');
-  };
+const App = () => (
+  <div>
+    <MyButton type="primary">自定义按钮</MyButton>
+    <Input placeholder="原生 Input 组件" />
+    <p>当前日期：{formatDate(new Date())}</p>
+  </div>
+);
 
-  return (
-    <div>
-      {/* 自定义组件 */}
-      <MyButton type="primary" onClick={handleClick}>
-        自定义按钮
-      </MyButton>
+export default App;
+```
 
-      {/* antd 原生组件 */}
-      <Input placeholder="原生 Input 组件" />
+### 按需安装后使用
 
-      {/* 工具方法 */}
-      <p>当前日期：{formatDate(new Date())}</p>
-      <p>手机号校验：{validatePhone('13800138000') ? '合法' : '非法'}</p>
-    </div>
-  );
-};
+```tsx
+// 从子包分别导入
+import { MyButton, Input } from '@company/ui-components';
+import { formatDate, validatePhone } from '@company/utils';
+
+const App = () => (
+  <div>
+    <MyButton type="primary">自定义按钮</MyButton>
+    <p>当前日期：{formatDate(new Date())}</p>
+    <p>手机号校验：{validatePhone('13800138000') ? '合法' : '非法'}</p>
+  </div>
+);
 
 export default App;
 ```
 
 ## 子包说明
+
+### company-shared-lib（聚合包）
+
+聚合导出所有子包内容，适合需要完整功能的场景。
 
 ### @company/ui-components
 
@@ -105,74 +123,31 @@ pnpm build
 pnpm clean
 ```
 
-### 单独构建子包
-
-```bash
-# 构建 UI 组件包
-cd packages/ui-components && pnpm build
-
-# 构建工具方法包
-cd packages/utils && pnpm build
-```
-
 ## 发布指南
 
-### 1. 登录 npm
+### 发布顺序
+
+由于聚合包依赖子包，发布时需按顺序：
 
 ```bash
-# 登录公共 npm
-npm login
+# 1. 先发布子包
+cd packages/utils && npm publish
+cd packages/ui-components && npm publish
 
-# 或登录私有 npm
-npm login --registry=https://your-private-registry.com
+# 2. 再发布聚合包
+cd packages/shared-lib && npm publish
 ```
 
-### 2. 更新版本号
+### 版本更新
 
 ```bash
-# 在子包目录下执行
-cd packages/ui-components
-npm version patch  # 或 minor / major
-```
+# 更新子包版本
+cd packages/utils
+npm version patch
 
-### 3. 构建并发布
-
-```bash
-# 构建
-pnpm build
-
-# 发布
-npm publish
-
-# 发布到私有仓库
-npm publish --registry=https://your-private-registry.com
-```
-
-### 4. 作用域包发布（如需要）
-
-如果使用 `@company` 作用域，需确保：
-- 在 npm 上拥有 `@company` 组织
-- 或配置 `publishConfig.access` 为 `public`
-
-```json
-{
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
-  }
-}
-```
-
-## 版本升级
-
-业务项目更新公共库版本：
-
-```bash
-# 更新到最新版本
-pnpm update @company/ui-components @company/utils
-
-# 更新到指定版本
-pnpm add @company/ui-components@1.1.0
+# 更新聚合包版本
+cd packages/shared-lib
+npm version patch
 ```
 
 ## License
