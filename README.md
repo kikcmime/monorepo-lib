@@ -22,18 +22,20 @@ company-shared-lib/
 一键安装所有功能：
 
 ```bash
-pnpm add company-shared-lib
+pnpm add company-shared-lib antd
 ```
+
+**注意**: 由于本包基于 antd 构建，使用时需要同时安装 antd 作为项目依赖。
 
 ### 方式二：按需安装
 
 只安装需要的包，减小体积：
 
 ```bash
-# 只安装 UI 组件
-pnpm add @company/ui-components
+# 只安装 UI 组件（需要同时安装 antd）
+pnpm add @company/ui-components antd
 
-# 只安装工具方法
+# 只安装工具方法（无需额外依赖）
 pnpm add @company/utils
 ```
 
@@ -84,6 +86,15 @@ export default App;
 ### @company/ui-components
 
 基于 antd 5.x 封装的公共 UI 组件库。
+
+**重要提示**: 本包基于 antd 构建，使用时需要项目已安装 antd。
+
+安装时请确保:
+```bash
+pnpm add antd
+```
+
+**注意**: 请保持 antd 版本与我方构建时使用的版本 (^5.12.0) 兼容，类型定义才能正常工作。
 
 - **自定义组件**：`MyButton`（默认样式：margin: 0 8px, size: middle）
 - **antd 透传**：Button, Input, Select, Table, Modal, Form, DatePicker, Upload, Menu, Tabs, Card, Tree, Dropdown, Tooltip, Popover, message, notification, ConfigProvider

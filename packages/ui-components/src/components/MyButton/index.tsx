@@ -1,11 +1,4 @@
 import React from 'react';
-import { Button } from 'antd';
-import type { ButtonProps } from 'antd';
-
-export interface MyButtonProps extends ButtonProps {
-  /** 自定义类名 */
-  className?: string;
-}
 
 /**
  * 自定义 Button 组件
@@ -13,9 +6,12 @@ export interface MyButtonProps extends ButtonProps {
  * - 默认 size: middle
  * - 保留 ant Button 的所有
  */
-export const MyButton: React.FC<MyButtonProps> = ({
+export const MyButton: React.FC<{
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
   style,
-  size = 'middle',
+  children,
   ...restProps
 }) => {
   const defaultStyle: React.CSSProperties = {
@@ -23,7 +19,7 @@ export const MyButton: React.FC<MyButtonProps> = ({
     ...style,
   };
 
-  return <Button style={defaultStyle} size={size} {...restProps} />;
+  return <div style={style} >{children || '王腾飞'}</div>;
 };
 
 export default MyButton;
