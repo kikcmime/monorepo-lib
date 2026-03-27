@@ -1,6 +1,6 @@
 {
   "name": "company-shared-lib",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": false,
   "description": "公司前端公共库 Monorepo",
   "scripts": {
